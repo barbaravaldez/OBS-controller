@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1>OBS Controller</h1>
-  <button onclick="switchScene('Scene 1')">Switch to Scene 1</button>
+  <button onclick="switchScene('Scene')">Switch to Scene 1</button>
   <button onclick="switchScene('Scene 2')">Switch to Scene 2</button>
 
   <script>
@@ -25,6 +25,7 @@
     };
 
     function switchScene(sceneName) {
+      console.log(`Switching to scene: ${sceneName}`);
       ws.send(JSON.stringify({ command: 'switchScene', sceneName }));
     }
 
