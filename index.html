@@ -1,0 +1,36 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OBS Controller</title>
+</head>
+<body>
+  <h1>OBS Controller</h1>
+  <button onclick="switchScene('Scene 1')">Switch to Scene 1</button>
+  <button onclick="switchScene('Scene 2')">Switch to Scene 2</button>
+
+  <script>
+    const ws = new WebSocket('ws://localhost:8080');
+
+    ws.onopen = () => {
+      console.log('Connected to server');
+    };
+
+    ws.onmessage = event => {
+      const message = JSON.parse(event.data);
+      if (message.event === 'sceneChanged') {
+        alert(`Scene changed to: ${message.sceneName}`);
+      }
+    };
+
+    function switchScene(sceneName) {
+      ws.send(JSON.stringify({ command: 'switchScene', sceneName }));
+    }
+
+    ws.onclose = () => {
+      console.log('Disconnected from server');
+    };
+  </script>
+</body>
+</html>
